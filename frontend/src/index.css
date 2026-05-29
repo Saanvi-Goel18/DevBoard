@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-on-background font-sans antialiased selection:bg-primary-container selection:text-on-primary-container;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-glass-bg backdrop-blur-[12px] border border-glass-border shadow-[inset_0_1px_0_rgba(255,255,255,0.1),inset_1px_0_0_rgba(255,255,255,0.1)] rounded-lg;
+  }
+  .glass-button {
+    @apply bg-transparent border border-primary text-primary transition-all duration-300 hover:glow-primary hover:bg-primary/10 rounded;
+  }
+  .primary-button {
+    @apply bg-primary text-on-primary border border-transparent transition-all duration-300 hover:opacity-90 rounded font-medium;
+  }
+  .input-field {
+    @apply w-full bg-surface-container border border-outline-variant rounded px-3 py-2 text-on-surface focus:outline-none focus:border-primary focus:glow-primary focus:bg-black transition-all duration-300;
+  }
+  .glow-primary {
+    @apply shadow-[0_0_15px_rgba(173,198,255,0.4)];
+  }
+  .glow-secondary {
+    @apply shadow-[0_0_15px_rgba(208,188,255,0.4)];
+  }
+}

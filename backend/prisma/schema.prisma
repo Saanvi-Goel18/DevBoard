@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  password     String
+  name         String
+  role         Role          @default(APPLICANT)
+  applications Application[]
+  tasks        Task[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+enum Role {
+  ADMIN
+  HR
+  APPLICANT
+  EMPLOYEE
+}
+
+model Job {
+  id           String        @id @default(uuid())
+  title        String
+  description  String
+  requirements String
+  status       JobStatus     @default(OPEN)
+  applications Application[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+enum JobStatus {
+  OPEN
+  CLOSED
+  DRAFT
+}
+
+model Application {
+  id        String           @id @default(uuid())
+  userId    String
+  jobId     String
+  status    ApplicationStage @default(APPLIED)
+  user      User             @relation(fields: [userId], references: [id])
+  job       Job              @relation(fields: [jobId], references: [id])
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+}
+
+enum ApplicationStage {
+  APPLIED
+  SHORTLISTED
+  INTERVIEWED
+  OFFERED
+  HIRED
+  REJECTED
+}
+
+model Task {
+  id          String    @id @default(uuid())
+  title       String
+  description String
+  isCompleted Boolean   @default(false)
+  assigneeId  String
+  assignee    User      @relation(fields: [assigneeId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
