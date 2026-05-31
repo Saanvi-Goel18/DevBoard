@@ -125,7 +125,7 @@ const Jobs = () => {
                   {generateMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                   <span>Generate AI Description</span>
                 </button>
-              </PageWrapper>
+              </div>
 
               {generatedDescription && (
                 <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
