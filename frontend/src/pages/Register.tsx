@@ -21,7 +21,7 @@ const Register = () => {
     setError('');
     try {
       const res = await api.post('/auth/register', { name, email, password, role });
-      login(res.data.token, res.data.user);
+      login(res.data.accessToken, res.data.user);
       navigate('/dashboard');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Access Denied.');

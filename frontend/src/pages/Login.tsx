@@ -19,7 +19,7 @@ const Login = () => {
     setError('');
     try {
       const res = await api.post('/auth/login', { email, password });
-      login(res.data.token, res.data.user);
+      login(res.data.accessToken, res.data.user);
       navigate('/dashboard');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Access Denied.');
