@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '../utils/api';
 import { Plus, Sparkles, Loader2 } from 'lucide-react';
+import PageWrapper from '../components/PageWrapper';
 
 interface Job {
   id: string;
@@ -55,7 +56,7 @@ const Jobs = () => {
   });
 
   return (
-    <div className="max-w-6xl w-full mx-auto">
+    <PageWrapper className="max-w-6xl w-full mx-auto">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-on-background">Job Listings</h1>
@@ -124,7 +125,7 @@ const Jobs = () => {
                   {generateMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                   <span>Generate AI Description</span>
                 </button>
-              </div>
+              </PageWrapper>
 
               {generatedDescription && (
                 <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
@@ -149,7 +150,7 @@ const Jobs = () => {
           </div>
         </div>
       )}
-    </div>
+    </PageWrapper>
   );
 };
 

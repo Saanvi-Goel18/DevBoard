@@ -5,6 +5,7 @@ import type { DragEndEvent } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import api from '../utils/api';
 import { Loader2 } from 'lucide-react';
+import PageWrapper from '../components/PageWrapper';
 
 const STAGES = ['APPLIED', 'SHORTLISTED', 'INTERVIEWED', 'OFFERED', 'HIRED', 'REJECTED'];
 
@@ -118,7 +119,7 @@ const Candidates = () => {
   if (isLoading) return <div className="text-primary font-mono animate-pulse flex items-center"><Loader2 className="w-4 h-4 mr-2 animate-spin"/> Syncing Talent Pool...</div>;
 
   return (
-    <div className="h-full flex flex-col">
+    <PageWrapper className="h-full flex flex-col">
       <div className="mb-8 shrink-0">
         <h1 className="text-3xl font-bold tracking-tight text-on-background">Talent Pool Pipeline</h1>
         <p className="text-on-surface-variant mt-1">Drag and drop candidates to update their stage.</p>
@@ -137,7 +138,7 @@ const Candidates = () => {
           </DndContext>
         </div>
       </div>
-    </div>
+    </PageWrapper>
   );
 };
 
