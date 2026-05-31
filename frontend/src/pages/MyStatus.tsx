@@ -1,4 +1,4 @@
-import { useAuth } from '../context/AuthContext';
+
 import { useQuery } from '@tanstack/react-query';
 import api from '../utils/api';
 import { Loader2, CheckCircle2, Circle, Clock } from 'lucide-react';
@@ -14,7 +14,7 @@ interface Application {
 const STAGES = ['APPLIED', 'SHORTLISTED', 'INTERVIEWED', 'OFFERED', 'HIRED', 'REJECTED'];
 
 const MyStatus = () => {
-  const { user } = useAuth();
+
   
   const { data: applications, isLoading } = useQuery<Application[]>({
     queryKey: ['my-applications'],
