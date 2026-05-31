@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
+import axios from 'axios';
 import { Activity, Loader2 } from 'lucide-react';
 import PageWrapper from '../components/PageWrapper';
 
@@ -23,8 +24,12 @@ const Register = () => {
       const res = await api.post('/auth/register', { name, email, password, role });
       login(res.data.accessToken, res.data.user);
       navigate('/dashboard');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Access Denied.');
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || 'Access Denied.');
+      } else {
+        setError('An unexpected error occurred.');
+      }
     } finally {
       setLoading(false);
     }
