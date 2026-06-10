@@ -8,6 +8,7 @@ import Jobs from './pages/Jobs';
 import Candidates from './pages/Candidates';
 import Dashboard from './pages/Dashboard';
 import MyStatus from './pages/MyStatus';
+import Careers from './pages/Careers';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/careers" element={<Careers />} />
           
           <Route element={<ProtectedRoute />}>
             <Route element={<Layout />}>
@@ -32,7 +34,7 @@ function App() {
             </Route>
           </Route>
 
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          <Route path="*" element={<Navigate to="/careers" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

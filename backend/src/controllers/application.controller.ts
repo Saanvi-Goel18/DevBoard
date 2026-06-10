@@ -22,8 +22,12 @@ export const applyForJob = async (req: AuthRequest, res: Response) => {
         userId,
         jobId,
         status: ApplicationStage.APPLIED
-      }
+      },
+      include: { user: { select: { name: true, email: true } }, job: { select: { title: true } } }
     });
+
+    const io = req.app.get('io');
+    io.emit('newApplication', application);
 
     res.status(201).json(application);
   } catch (error) {
@@ -64,6 +68,9 @@ export const updateApplicationStatus = async (req: Request, res: Response) => {
       where: { id },
       data: { status }
     });
+
+    const io = req.app.get('io');
+    io.emit('applicationStatusChanged', application);
 
     res.json(application);
   } catch (error) {

@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { DndContext, useDraggable, useDroppable } from '@dnd-kit/core';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
+import { io } from 'socket.io-client';
 import api from '../utils/api';
 import { Loader2 } from 'lucide-react';
 import PageWrapper from '../components/PageWrapper';
@@ -88,6 +89,24 @@ const Candidates = () => {
       setLocalApps(applications);
     }
   }, [applications]);
+
+  useEffect(() => {
+    const socket = io('http://localhost:5000');
+
+    socket.on('applicationStatusChanged', (updatedApp) => {
+      setLocalApps(prev => 
+        prev.map(app => app.id === updatedApp.id ? { ...app, status: updatedApp.status } : app)
+      );
+    });
+
+    socket.on('newApplication', (newApp) => {
+      setLocalApps(prev => [newApp, ...prev.filter(app => app.id !== newApp.id)]);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   const updateStatusMutation = useMutation({
     mutationFn: async ({ id, status }: { id: string, status: string }) => {
