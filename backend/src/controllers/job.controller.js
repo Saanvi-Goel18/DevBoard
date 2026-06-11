@@ -42,7 +42,7 @@ const generateJobDescription = async (req, res) => {
         if (!title || !stack) {
             return res.status(400).json({ message: 'Title and stack are required' });
         }
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest" });
         const prompt = `Write a professional and engaging job description for a ${title} role. 
     The tech stack is: ${stack}. 
     Format the output in clean Markdown. Include a brief intro, responsibilities, and requirements.`;

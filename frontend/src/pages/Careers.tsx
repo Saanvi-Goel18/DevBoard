@@ -1,4 +1,5 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 import api from '../utils/api';
 import PageWrapper from '../components/PageWrapper';
 import { Briefcase, MapPin, DollarSign, Clock, ArrowRight } from 'lucide-react';
@@ -31,8 +32,12 @@ const Careers = () => {
     onSuccess: () => {
       navigate('/my-status');
     },
-    onError: (err: any) => {
-      alert(err.response?.data?.message || 'Failed to apply');
+    onError: (err: unknown) => {
+      if (axios.isAxiosError(err)) {
+        alert(err.response?.data?.message || 'Failed to apply');
+      } else {
+        alert('Failed to apply');
+      }
     }
   });
 

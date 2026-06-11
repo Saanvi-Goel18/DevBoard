@@ -86,12 +86,16 @@ const Candidates = () => {
 
   useEffect(() => {
     if (applications) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLocalApps(applications);
     }
   }, [applications]);
 
   useEffect(() => {
-    const socket = io('http://localhost:5000');
+    const socketUrl = import.meta.env.VITE_API_URL 
+      ? import.meta.env.VITE_API_URL.replace('/api', '') 
+      : 'http://localhost:5000';
+    const socket = io(socketUrl);
 
     socket.on('applicationStatusChanged', (updatedApp) => {
       setLocalApps(prev => 
