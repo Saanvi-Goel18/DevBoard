@@ -1,7 +1,7 @@
 
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Activity, LayoutDashboard, Briefcase, Users, CheckSquare, LogOut } from 'lucide-react';
+import { Activity, LayoutDashboard, Briefcase, Users, CheckSquare, LogOut, BarChart2 } from 'lucide-react';
 
 const Sidebar = () => {
   const { user, logout } = useAuth();
@@ -11,6 +11,7 @@ const Sidebar = () => {
     { name: 'Nexus Hub', path: '/dashboard', icon: LayoutDashboard, roles: ['ADMIN', 'HR', 'APPLICANT', 'EMPLOYEE'] },
     { name: 'Job Listings', path: '/jobs', icon: Briefcase, roles: ['ADMIN', 'HR'] },
     { name: 'Talent Pool', path: '/candidates', icon: Users, roles: ['ADMIN', 'HR'] },
+    { name: 'Analytics', path: '/analytics', icon: BarChart2, roles: ['ADMIN', 'HR'] },
     { name: 'My Status', path: '/my-status', icon: Activity, roles: ['APPLICANT'] },
     { name: 'Onboarding', path: '/tasks', icon: CheckSquare, roles: ['APPLICANT', 'EMPLOYEE'] },
   ];

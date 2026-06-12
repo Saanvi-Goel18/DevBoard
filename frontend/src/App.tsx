@@ -9,6 +9,7 @@ import Candidates from './pages/Candidates';
 import Dashboard from './pages/Dashboard';
 import MyStatus from './pages/MyStatus';
 import Careers from './pages/Careers';
+import Analytics from './pages/Analytics';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route element={<ProtectedRoute allowedRoles={['ADMIN', 'HR']} />}>
                 <Route path="/jobs" element={<Jobs />} />
                 <Route path="/candidates" element={<Candidates />} />
+                <Route path="/analytics" element={<Analytics />} />
               </Route>
               {/* Applicant Routes */}
               <Route element={<ProtectedRoute allowedRoles={['APPLICANT']} />}>
