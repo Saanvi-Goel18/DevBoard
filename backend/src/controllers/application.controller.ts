@@ -65,7 +65,7 @@ export const updateApplicationStatus = async (req: Request, res: Response) => {
     const { status } = req.body;
 
     const application = await prisma.application.update({
-      where: { id },
+      where: { id: id as string },
       data: { status }
     });
 

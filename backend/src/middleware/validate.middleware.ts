@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { AnyZodObject, ZodError } from 'zod';
+import { ZodSchema, ZodError } from 'zod';
 
-export const validate = (schema: AnyZodObject) => {
+export const validate = (schema: ZodSchema) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       await schema.parseAsync({
@@ -11,10 +11,11 @@ export const validate = (schema: AnyZodObject) => {
       });
       return next();
     } catch (error) {
-      if (error instanceof ZodError) {
+      if (error instanceof ZodError || (error as any).name === 'ZodError') {
+        const zodError = error as any;
         return res.status(400).json({
           message: 'Validation failed',
-          errors: error.errors.map(e => ({ path: e.path.join('.'), message: e.message }))
+          errors: zodError.errors?.map((e: any) => ({ path: e.path.join('.'), message: e.message })) || []
         });
       }
       return res.status(500).json({ message: 'Internal server error' });
