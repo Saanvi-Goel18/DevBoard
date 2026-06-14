@@ -2,6 +2,7 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Activity, LayoutDashboard, Briefcase, Users, CheckSquare, LogOut, BarChart2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Sidebar = () => {
   const { user, logout } = useAuth();
@@ -72,14 +73,31 @@ const Header = () => {
 };
 
 const Layout = () => {
+  const location = useLocation();
+  
   return (
-    <div className="h-screen w-full flex overflow-hidden bg-background">
+    <div className="h-screen w-full flex overflow-hidden bg-background text-on-background">
       <Sidebar />
       <main className="flex-1 flex flex-col relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] -z-10 pointer-events-none" />
+        {/* Aurora Background */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/20 rounded-full mix-blend-screen filter blur-[100px] opacity-70 animate-blob pointer-events-none z-0" />
+        <div className="absolute top-0 -left-10 w-[500px] h-[500px] bg-secondary/20 rounded-full mix-blend-screen filter blur-[100px] opacity-70 animate-blob animation-delay-2000 pointer-events-none z-0" />
+        <div className="absolute -bottom-20 left-40 w-[600px] h-[600px] bg-tertiary/20 rounded-full mix-blend-screen filter blur-[100px] opacity-70 animate-blob animation-delay-4000 pointer-events-none z-0" />
+        
         <Header />
-        <div className="flex-1 overflow-auto p-8 z-0">
-          <Outlet />
+        <div className="flex-1 overflow-auto p-8 z-10 relative">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="h-full"
+            >
+              <Outlet />
+            </motion.div>
+          </AnimatePresence>
         </div>
       </main>
     </div>

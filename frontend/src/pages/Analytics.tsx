@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import api from '../utils/api';
 import PageWrapper from '../components/PageWrapper';
-import { Loader2 } from 'lucide-react';
+import { DashboardSkeleton } from '../components/SkeletonLoader';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell
@@ -23,7 +23,11 @@ const Analytics = () => {
     }
   });
 
-  if (isLoading) return <div className="text-primary font-mono animate-pulse flex items-center"><Loader2 className="w-4 h-4 mr-2 animate-spin"/> Crunching Data...</div>;
+  if (isLoading) return (
+    <PageWrapper className="h-full overflow-y-auto custom-scrollbar pr-4">
+      <DashboardSkeleton />
+    </PageWrapper>
+  );
 
   const apps = applications || [];
 

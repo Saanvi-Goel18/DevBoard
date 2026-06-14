@@ -12,7 +12,7 @@
 
 @layer utilities {
   .glass-panel {
-    @apply bg-glass-bg backdrop-blur-[12px] border border-glass-border shadow-[inset_0_1px_0_rgba(255,255,255,0.1),inset_1px_0_0_rgba(255,255,255,0.1)] rounded-lg;
+    @apply bg-glass-bg backdrop-blur-[24px] border border-white/5 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] rounded-2xl;
   }
   .glass-button {
     @apply bg-transparent border border-primary text-primary transition-all duration-300 hover:glow-primary hover:bg-primary/10 rounded;
