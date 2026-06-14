@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import axios from 'axios';
@@ -14,7 +14,9 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, user } = useAuth();
+
+  if (user) return <Navigate to="/dashboard" replace />;
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,8 +24,13 @@ const Register = () => {
     setError('');
     try {
       const res = await api.post('/auth/register', { name, email, password, role });
-      login(res.data.accessToken, res.data.user);
-      navigate('/dashboard');
+      const registeredUser = res.data.user;
+      login(res.data.accessToken, registeredUser);
+      if (registeredUser.role === 'APPLICANT') {
+        navigate('/careers');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setError(err.response?.data?.message || 'Access Denied.');

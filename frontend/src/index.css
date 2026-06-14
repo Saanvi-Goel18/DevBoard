@@ -5,9 +5,18 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    font-size: 16px;
+  }
   body {
     @apply bg-background text-on-background font-sans antialiased selection:bg-primary-container selection:text-on-primary-container;
+    font-size: 1rem;
+    line-height: 1.6;
   }
+  h1 { @apply text-4xl font-bold tracking-tight; }
+  h2 { @apply text-3xl font-bold tracking-tight; }
+  h3 { @apply text-xl font-semibold; }
+  p  { @apply text-base leading-relaxed; }
 }
 
 @layer utilities {
@@ -15,18 +24,29 @@
     @apply bg-glass-bg backdrop-blur-[24px] border border-white/5 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] rounded-2xl;
   }
   .glass-button {
-    @apply bg-transparent border border-primary text-primary transition-all duration-300 hover:glow-primary hover:bg-primary/10 rounded;
+    @apply bg-transparent border border-primary text-primary text-sm font-semibold px-5 py-2.5 transition-all duration-300 hover:glow-primary hover:bg-primary/10 rounded-xl;
   }
   .primary-button {
-    @apply bg-primary text-on-primary border border-transparent transition-all duration-300 hover:opacity-90 rounded font-medium;
+    @apply bg-primary text-on-primary text-sm font-semibold px-5 py-2.5 border border-transparent transition-all duration-300 hover:opacity-90 rounded-xl;
   }
   .input-field {
-    @apply w-full bg-surface-container border border-outline-variant rounded px-3 py-2 text-on-surface focus:outline-none focus:border-primary focus:glow-primary focus:bg-black transition-all duration-300;
+    @apply w-full bg-surface-container border border-outline-variant rounded-xl px-4 py-3 text-base text-on-surface
+           focus:outline-none focus:border-primary focus:glow-primary focus:bg-black transition-all duration-300
+           placeholder:text-on-surface-variant/50;
   }
   .glow-primary {
-    @apply shadow-[0_0_15px_rgba(173,198,255,0.4)];
+    @apply shadow-[0_0_20px_rgba(173,198,255,0.35)];
   }
   .glow-secondary {
-    @apply shadow-[0_0_15px_rgba(208,188,255,0.4)];
+    @apply shadow-[0_0_20px_rgba(208,188,255,0.35)];
+  }
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-outline-variant rounded-full;
   }
 }

@@ -20,40 +20,40 @@ const Sidebar = () => {
   const allowedNavs = navItems.filter(item => item.roles.includes(user?.role || ''));
 
   return (
-    <aside className="w-64 border-r border-glass-border bg-surface flex flex-col z-20">
-      <div className="h-16 flex items-center px-6 border-b border-glass-border">
-        <Activity className="w-5 h-5 text-primary mr-2" />
-        <span className="font-bold text-on-background tracking-wide">DEV<span className="text-primary">BOARD</span></span>
+    <aside className="w-72 border-r border-white/5 bg-surface flex flex-col z-20">
+      <div className="h-20 flex items-center px-7 border-b border-white/5">
+        <Activity className="w-6 h-6 text-primary mr-3" />
+        <span className="font-bold text-xl text-on-background tracking-wide">DEV<span className="text-primary">BOARD</span></span>
       </div>
       
-      <div className="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+      <div className="flex-1 overflow-y-auto py-6 px-4 space-y-1">
         {allowedNavs.map((item) => {
           const isActive = location.pathname.startsWith(item.path);
           return (
             <Link
               key={item.name}
               to={item.path}
-              className={`flex items-center space-x-3 px-3 py-2.5 rounded transition-all duration-200 ${
+              className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
                 isActive 
                   ? 'bg-primary/10 text-primary border-l-2 border-primary' 
-                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 border-l-2 border-transparent'
+                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 border-l-2 border-transparent'
               }`}
             >
-              <item.icon className={`w-4 h-4 ${isActive ? 'glow-primary' : ''}`} />
-              <span className="text-sm font-medium">{item.name}</span>
+              <item.icon className={`w-5 h-5 ${isActive ? 'glow-primary' : ''}`} />
+              <span className="text-base font-medium">{item.name}</span>
             </Link>
           );
         })}
       </div>
 
-      <div className="p-4 border-t border-glass-border">
+      <div className="p-5 border-t border-white/5">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-xs font-mono text-on-background truncate w-32">{user?.name}</span>
-            <span className="text-[10px] font-mono text-tertiary uppercase tracking-widest">{user?.role}</span>
+            <span className="text-sm font-semibold text-on-background truncate w-40">{user?.name}</span>
+            <span className="text-xs font-mono text-tertiary uppercase tracking-widest mt-0.5">{user?.role}</span>
           </div>
-          <button onClick={logout} className="text-on-surface-variant hover:text-error transition-colors">
-            <LogOut className="w-4 h-4" />
+          <button onClick={logout} className="text-on-surface-variant hover:text-error transition-colors p-2 rounded-lg hover:bg-error/10">
+            <LogOut className="w-5 h-5" />
           </button>
         </div>
       </div>
