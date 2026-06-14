@@ -4,7 +4,7 @@ export const createJobSchema = z.object({
   body: z.object({
     title: z.string().min(3, 'Title is required'),
     description: z.string().min(10, 'Description must be detailed'),
-    requirements: z.array(z.string()).optional(),
+    requirements: z.union([z.string(), z.array(z.string())]).optional(),
   }),
 });
 
@@ -14,3 +14,4 @@ export const generateJobSchema = z.object({
     stack: z.string().min(2, 'Stack is required'),
   }),
 });
+
