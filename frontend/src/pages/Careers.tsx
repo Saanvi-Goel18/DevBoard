@@ -2,9 +2,9 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import api from '../utils/api';
 import PageWrapper from '../components/PageWrapper';
-import { Briefcase, MapPin, DollarSign, Clock, ArrowRight } from 'lucide-react';
+import { Briefcase, MapPin, DollarSign, Clock, ArrowRight, Activity, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 interface Job {
   id: string;
@@ -43,18 +43,55 @@ const Careers = () => {
 
   const handleApply = (jobId: string) => {
     if (!user) {
-      navigate('/register');
+      navigate('/login');
       return;
     }
     applyMutation.mutate(jobId);
   };
 
   return (
-    <PageWrapper className="min-h-screen bg-background text-on-background py-16 px-6 relative overflow-hidden">
+    <PageWrapper className="min-h-screen bg-background text-on-background relative overflow-hidden">
+      {/* Aurora blobs */}
       <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-[-20%] right-[-10%] w-[40%] h-[40%] bg-secondary/5 rounded-full blur-[150px] pointer-events-none" />
-      
-      <div className="max-w-4xl mx-auto relative z-10">
+
+      {/* Top Navigation */}
+      <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-background/80 backdrop-blur-xl">
+        <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Activity className="w-5 h-5 text-primary" />
+            <span className="font-bold tracking-wide text-on-background">DEV<span className="text-primary">BOARD</span></span>
+          </div>
+          <div className="flex items-center gap-3">
+            {user ? (
+              <Link
+                to="/dashboard"
+                className="flex items-center gap-2 text-sm text-on-surface-variant hover:text-primary transition-colors"
+              >
+                <LayoutDashboard className="w-4 h-4" />
+                Go to Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="text-sm text-on-surface-variant hover:text-on-background transition-colors px-4 py-2"
+                >
+                  Log In
+                </Link>
+                <Link
+                  to="/register"
+                  className="text-sm primary-button px-4 py-2"
+                >
+                  Register
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-4xl mx-auto relative z-10 py-16 px-6">
         <div className="text-center mb-16">
           <h1 className="text-5xl font-extrabold tracking-tight mb-4 flex items-center justify-center gap-3">
             <Briefcase className="w-12 h-12 text-primary" />
@@ -64,6 +101,7 @@ const Careers = () => {
           </h1>
           <p className="text-on-surface-variant text-lg">Join the Nexus. Shape the future.</p>
         </div>
+
 
         {isLoading ? (
           <div className="flex justify-center p-12">
