@@ -1,0 +1,7 @@
+# Ignore compiled JS output and declaration files
+src/**/*.js
+src/**/*.d.ts
+src/**/*.js.map
+src/**/*.d.ts.map
+dist/
+node_modules/
