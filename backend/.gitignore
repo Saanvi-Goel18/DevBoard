@@ -8,3 +8,9 @@ src/**/*.js
 src/**/*.js.map
 src/**/*.d.ts
 src/**/*.d.ts.map
+
+# Compiled prisma seed output
+prisma/*.js
+prisma/*.js.map
+prisma/*.d.ts
+prisma/*.d.ts.map

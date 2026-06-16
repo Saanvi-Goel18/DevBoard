@@ -56,15 +56,29 @@ async function main() {
     }
   });
 
+  const job2 = await prisma.job.create({
+    data: {
+      title: 'Backend Node.js Developer',
+      description: 'Join our platform team building scalable APIs with Node.js, Express, and Prisma.',
+      requirements: 'Node.js, Express, PostgreSQL, REST APIs.',
+      status: JobStatus.OPEN,
+    }
+  });
+
   await prisma.application.createMany({
     data: [
       { userId: applicant1.id, jobId: job1.id, status: ApplicationStage.APPLIED },
       { userId: applicant2.id, jobId: job1.id, status: ApplicationStage.INTERVIEWED },
       { userId: applicant3.id, jobId: job1.id, status: ApplicationStage.SHORTLISTED },
+      { userId: applicant1.id, jobId: job2.id, status: ApplicationStage.OFFERED },
     ]
   });
 
-  console.log('Database seeded successfully! Demo data populated.');
+  console.log(`✅ Database seeded successfully!`);
+  console.log(`   Admin:      ${admin.email}`);
+  console.log(`   Applicants: ${applicant1.email}, ${applicant2.email}, ${applicant3.email}`);
+  console.log(`   Jobs:       ${job1.title}, ${job2.title}`);
+  console.log(`\n   Default password for all accounts: password123`);
 }
 
 main()
