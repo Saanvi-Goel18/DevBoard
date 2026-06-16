@@ -20,7 +20,10 @@ export const authenticate = (req: AuthRequest, res: Response, next: NextFunction
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(401).json({ message: 'Invalid or expired token' });
+    if (error instanceof jwt.TokenExpiredError) {
+      return res.status(401).json({ message: 'Session expired. Please log in again.' });
+    }
+    return res.status(401).json({ message: 'Invalid token. Please log in again.' });
   }
 };
 
