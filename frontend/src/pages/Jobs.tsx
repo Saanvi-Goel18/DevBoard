@@ -150,7 +150,7 @@ const Jobs = () => {
             </div>
           ))}
           {jobs?.length === 0 && (
-            <div className="col-span-full py-16 text-center text-on-surface-variant border border-dashed border-white/10 rounded-2xl">
+            <div className="col-span-full py-16 text-center text-on-surface-variant border border-dashed border-outline-variant/60 rounded-2xl">
               <p className="text-lg font-medium">No active postings yet.</p>
               <p className="text-sm mt-1">Click "New Posting" to create your first job listing.</p>
             </div>
@@ -161,15 +161,15 @@ const Jobs = () => {
       {/* ── Pipeline Drawer ── */}
       {selectedJob && (
         <div className="fixed inset-0 z-50 flex justify-end">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setSelectedJob(null)} />
-          <div className="relative w-full max-w-lg h-full bg-surface border-l border-white/5 flex flex-col shadow-2xl">
+          <div className="absolute inset-0 bg-on-surface/30 backdrop-blur-sm" onClick={() => setSelectedJob(null)} />
+          <div className="relative w-full max-w-lg h-full bg-surface border-l border-outline-variant/50 flex flex-col shadow-2xl">
             {/* Drawer Header */}
-            <div className="p-6 border-b border-white/5 flex items-start justify-between">
+            <div className="p-6 border-b border-outline-variant/50 flex items-start justify-between">
               <div>
                 <p className="text-xs font-mono text-on-surface-variant uppercase tracking-widest mb-1">Pipeline</p>
                 <h2 className="text-2xl font-bold text-on-background">{selectedJob.title}</h2>
               </div>
-              <button onClick={() => setSelectedJob(null)} className="text-on-surface-variant hover:text-on-background p-2 rounded-lg hover:bg-white/5 transition-colors">
+              <button onClick={() => setSelectedJob(null)} className="text-on-surface-variant hover:text-on-background p-2 rounded-lg hover:bg-surface-variant/50 transition-colors">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -197,7 +197,7 @@ const Jobs = () => {
                   </div>
                 ))
               ) : (
-                <div className="text-center py-16 border border-dashed border-white/10 rounded-2xl">
+                <div className="text-center py-16 border border-dashed border-outline-variant/60 rounded-2xl">
                   <Users className="w-10 h-10 text-on-surface-variant mx-auto mb-3" />
                   <p className="text-on-surface-variant font-medium">No applicants yet</p>
                   <p className="text-sm text-on-surface-variant/60 mt-1">Applications will appear here once candidates apply.</p>
@@ -210,12 +210,12 @@ const Jobs = () => {
 
       {/* ── New Job Modal ── */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-on-surface/40 backdrop-blur-sm">
           <div className="glass-panel w-full max-w-2xl max-h-[90vh] flex flex-col border border-primary/20 shadow-[0_0_60px_rgba(0,0,0,0.8)]">
             {/* Modal Header */}
-            <div className="p-6 border-b border-white/5 flex items-center justify-between">
+            <div className="p-6 border-b border-outline-variant/50 flex items-center justify-between">
               <h2 className="text-2xl font-bold">New Job Posting</h2>
-              <button onClick={closeModal} className="text-on-surface-variant hover:text-on-background p-2 rounded-lg hover:bg-white/5 transition-colors">
+              <button onClick={closeModal} className="text-on-surface-variant hover:text-on-background p-2 rounded-lg hover:bg-surface-variant/50 transition-colors">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -285,7 +285,7 @@ const Jobs = () => {
                     value={generatedDescription}
                     onChange={e => setGeneratedDescription(e.target.value)}
                     rows={10}
-                    className="w-full bg-black/40 border border-secondary/30 rounded-xl px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-secondary transition-all font-mono leading-relaxed resize-none"
+                    className="w-full bg-surface-variant/20 border border-secondary/30 rounded-xl px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-secondary transition-all font-mono leading-relaxed resize-none"
                   />
                 </div>
               )}
@@ -298,7 +298,7 @@ const Jobs = () => {
                   </label>
                   <textarea
                     rows={6}
-                    className="w-full bg-black/40 border border-outline-variant rounded-xl px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-primary transition-all resize-none"
+                    className="w-full bg-surface-variant/20 border border-outline-variant rounded-xl px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-primary transition-all resize-none"
                     placeholder="Describe the role, responsibilities and requirements..."
                     onChange={e => setGeneratedDescription(e.target.value)}
                   />
@@ -307,7 +307,7 @@ const Jobs = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-6 border-t border-white/5 flex justify-end gap-3">
+            <div className="p-6 border-t border-outline-variant/50 flex justify-end gap-3">
               <button onClick={closeModal} className="px-5 py-2.5 text-sm font-semibold text-on-surface-variant hover:text-on-surface transition-colors">
                 Cancel
               </button>

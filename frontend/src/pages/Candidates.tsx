@@ -39,7 +39,7 @@ const DraggableCard = ({ app }: { app: Application }) => {
     >
       <h4 className="font-bold text-sm text-on-background mb-1 truncate">{app.user.name}</h4>
       <p className="text-[10px] font-mono text-tertiary truncate mb-2">{app.job.title}</p>
-      <div className="text-[9px] font-mono text-on-surface-variant uppercase bg-black/40 inline-block px-1.5 py-0.5 rounded">
+      <div className="text-[9px] font-mono text-on-surface-variant uppercase bg-surface-variant/20 inline-block px-1.5 py-0.5 rounded">
         ID: {app.id.substring(0,6)}
       </div>
     </div>

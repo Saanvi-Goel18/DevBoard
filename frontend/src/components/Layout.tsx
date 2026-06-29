@@ -20,8 +20,8 @@ const Sidebar = () => {
   const allowedNavs = navItems.filter(item => item.roles.includes(user?.role || ''));
 
   return (
-    <aside className="w-72 border-r border-white/5 bg-surface flex flex-col z-20">
-      <div className="h-20 flex items-center px-7 border-b border-white/5">
+    <aside className="w-72 border-r border-outline-variant/50 bg-surface flex flex-col z-20">
+      <div className="h-20 flex items-center px-7 border-b border-outline-variant/50">
         <Activity className="w-6 h-6 text-primary mr-3" />
         <span className="font-bold text-xl text-on-background tracking-wide">DEV<span className="text-primary">BOARD</span></span>
       </div>
@@ -46,7 +46,7 @@ const Sidebar = () => {
         })}
       </div>
 
-      <div className="p-5 border-t border-white/5">
+      <div className="p-5 border-t border-outline-variant/50">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-on-background truncate w-40">{user?.name}</span>
@@ -80,9 +80,9 @@ const Layout = () => {
       <Sidebar />
       <main className="flex-1 flex flex-col relative overflow-hidden">
         {/* Aurora Background */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/20 rounded-full mix-blend-screen filter blur-[100px] opacity-70 animate-blob pointer-events-none z-0" />
-        <div className="absolute top-0 -left-10 w-[500px] h-[500px] bg-secondary/20 rounded-full mix-blend-screen filter blur-[100px] opacity-70 animate-blob animation-delay-2000 pointer-events-none z-0" />
-        <div className="absolute -bottom-20 left-40 w-[600px] h-[600px] bg-tertiary/20 rounded-full mix-blend-screen filter blur-[100px] opacity-70 animate-blob animation-delay-4000 pointer-events-none z-0" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-blob pointer-events-none z-0" />
+        <div className="absolute top-0 -left-10 w-[500px] h-[500px] bg-secondary/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-blob animation-delay-2000 pointer-events-none z-0" />
+        <div className="absolute -bottom-20 left-40 w-[600px] h-[600px] bg-tertiary/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-blob animation-delay-4000 pointer-events-none z-0" />
         
         <Header />
         <div className="flex-1 overflow-auto p-8 z-10 relative">

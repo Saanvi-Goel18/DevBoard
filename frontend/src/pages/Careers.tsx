@@ -56,7 +56,7 @@ const Careers = () => {
       <div className="absolute bottom-[-20%] right-[-10%] w-[40%] h-[40%] bg-secondary/5 rounded-full blur-[150px] pointer-events-none" />
 
       {/* Top Navigation */}
-      <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-background/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 w-full border-b border-outline-variant/50 bg-background/80 backdrop-blur-xl">
         <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Activity className="w-5 h-5 text-primary" />
@@ -110,7 +110,7 @@ const Careers = () => {
         ) : (
           <div className="grid gap-6">
             {jobs?.filter(j => j.status === 'OPEN').map((job) => (
-              <div key={job.id} className="surface-card p-6 rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-300 group">
+              <div key={job.id} className="surface-card p-6 rounded-2xl border border-outline-variant/50 hover:border-primary/30 transition-all duration-300 group">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                   <div>
                     <h3 className="text-2xl font-bold text-white mb-2">{job.title}</h3>
@@ -133,7 +133,7 @@ const Careers = () => {
               </div>
             ))}
             {jobs?.filter(j => j.status === 'OPEN').length === 0 && (
-              <div className="text-center p-12 text-on-surface-variant surface-card rounded-2xl border border-white/5">
+              <div className="text-center p-12 text-on-surface-variant surface-card rounded-2xl border border-outline-variant/50">
                 No open positions at the moment. Check back later!
               </div>
             )}
