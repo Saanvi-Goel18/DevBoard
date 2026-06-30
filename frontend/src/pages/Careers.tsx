@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import api from '../utils/api';
 import PageWrapper from '../components/PageWrapper';
-import { Briefcase, MapPin, DollarSign, Clock, ArrowRight, Activity, LayoutDashboard } from 'lucide-react';
+import { Briefcase, MapPin, DollarSign, Clock, ArrowRight, Activity, LayoutDashboard, X, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 
@@ -16,6 +17,8 @@ interface Job {
 const Careers = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  const [resumeText, setResumeText] = useState('');
 
   const { data: jobs, isLoading } = useQuery<Job[]>({
     queryKey: ['public-jobs'],
@@ -26,10 +29,12 @@ const Careers = () => {
   });
 
   const applyMutation = useMutation({
-    mutationFn: async (jobId: string) => {
-      return api.post('/applications', { jobId });
+    mutationFn: async ({ jobId, resumeText }: { jobId: string, resumeText: string }) => {
+      return api.post('/applications', { jobId, resumeText });
     },
     onSuccess: () => {
+      setSelectedJob(null);
+      setResumeText('');
       navigate('/my-status');
     },
     onError: (err: unknown) => {
@@ -41,12 +46,18 @@ const Careers = () => {
     }
   });
 
-  const handleApply = (jobId: string) => {
+  const handleApplyClick = (job: Job) => {
     if (!user) {
       navigate('/login');
       return;
     }
-    applyMutation.mutate(jobId);
+    setSelectedJob(job);
+  };
+
+  const submitApplication = () => {
+    if (selectedJob && resumeText.trim()) {
+      applyMutation.mutate({ jobId: selectedJob.id, resumeText });
+    }
   };
 
   return (
@@ -110,10 +121,10 @@ const Careers = () => {
         ) : (
           <div className="grid gap-6">
             {jobs?.filter(j => j.status === 'OPEN').map((job) => (
-              <div key={job.id} className="surface-card p-6 rounded-2xl border border-outline-variant/50 hover:border-primary/30 transition-all duration-300 group">
+              <div key={job.id} className="glass-panel p-6 rounded-2xl border border-outline-variant/50 hover:border-primary/30 transition-all duration-300 group">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                   <div>
-                    <h3 className="text-2xl font-bold text-white mb-2">{job.title}</h3>
+                    <h3 className="text-2xl font-bold text-on-background mb-2">{job.title}</h3>
                     <div className="flex flex-wrap gap-4 text-sm text-on-surface-variant mb-4">
                       <span className="flex items-center gap-1"><MapPin className="w-4 h-4" /> Remote</span>
                       <span className="flex items-center gap-1"><DollarSign className="w-4 h-4" /> Competitive</span>
@@ -122,8 +133,7 @@ const Careers = () => {
                     <p className="text-on-surface line-clamp-2">{job.description}</p>
                   </div>
                   <button 
-                    onClick={() => handleApply(job.id)}
-                    disabled={applyMutation.isPending}
+                    onClick={() => handleApplyClick(job)}
                     className="primary-button whitespace-nowrap flex items-center gap-2 group-hover:scale-105 transition-transform"
                   >
                     {user ? 'Apply Now' : 'Login to Apply'}
@@ -133,13 +143,57 @@ const Careers = () => {
               </div>
             ))}
             {jobs?.filter(j => j.status === 'OPEN').length === 0 && (
-              <div className="text-center p-12 text-on-surface-variant surface-card rounded-2xl border border-outline-variant/50">
+               <div className="text-center p-12 text-on-surface-variant glass-panel rounded-2xl border border-outline-variant/50">
                 No open positions at the moment. Check back later!
               </div>
             )}
           </div>
         )}
       </div>
+
+      {/* Application Modal */}
+      {selectedJob && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="glass-panel w-full max-w-lg shadow-2xl flex flex-col">
+            <div className="p-6 border-b border-outline-variant/30 flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-bold text-on-background">Apply for Role</h2>
+                <p className="text-sm text-on-surface-variant mt-1">{selectedJob.title}</p>
+              </div>
+              <button onClick={() => setSelectedJob(null)} className="text-on-surface-variant hover:text-on-background p-2 rounded-lg hover:bg-surface-variant/50 transition-colors">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6">
+              <label className="block text-sm font-semibold text-on-surface-variant mb-2">
+                Paste your Resume / Cover Letter
+              </label>
+              <textarea
+                value={resumeText}
+                onChange={e => setResumeText(e.target.value)}
+                rows={8}
+                placeholder="Paste your professional experience here..."
+                className="input-field resize-none text-sm leading-relaxed"
+              />
+            </div>
+            <div className="p-6 border-t border-outline-variant/30 flex justify-end gap-3 bg-surface-dim/30 rounded-b-2xl">
+              <button 
+                onClick={() => setSelectedJob(null)} 
+                className="px-5 py-2.5 text-sm font-semibold text-on-surface-variant hover:text-on-surface transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={submitApplication}
+                disabled={!resumeText.trim() || applyMutation.isPending}
+                className="primary-button disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                {applyMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Submit Application'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </PageWrapper>
   );
 };

@@ -18,6 +18,9 @@ interface Application {
   status: string;
   createdAt: string;
   user: { name: string; email: string };
+  resumeText: string | null;
+  aiScore: number | null;
+  aiSummary: string | null;
 }
 
 const STATUS_COLORS: Record<string, string> = {
@@ -56,6 +59,26 @@ const Jobs = () => {
       return res.data.filter((a: Application & { jobId: string }) => a.jobId === selectedJob?.id);
     },
     enabled: !!selectedJob,
+  });
+
+  const scoreMutation = useMutation({
+    mutationFn: async (applicationId: string) => {
+      const res = await api.post(`/applications/${applicationId}/score`);
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['pipeline', selectedJob?.id] });
+    }
+  });
+
+  const updateStatusMutation = useMutation({
+    mutationFn: async ({ applicationId, status }: { applicationId: string, status: string }) => {
+      const res = await api.patch(`/applications/${applicationId}/status`, { status });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['pipeline', selectedJob?.id] });
+    }
   });
 
   const generateMutation = useMutation({
@@ -183,17 +206,50 @@ const Jobs = () => {
                 </div>
               ) : pipelineApps && pipelineApps.length > 0 ? (
                 pipelineApps.map(app => (
-                  <div key={app.id} className="glass-panel p-4 flex items-center justify-between">
-                    <div>
-                      <p className="font-semibold text-on-background">{app.user.name}</p>
-                      <p className="text-sm text-on-surface-variant">{app.user.email}</p>
-                      <p className="text-xs text-on-surface-variant mt-1 font-mono">
-                        {new Date(app.createdAt).toLocaleDateString()}
-                      </p>
+                  <div key={app.id} className="glass-panel p-4 flex flex-col gap-3">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-semibold text-on-background">{app.user.name}</p>
+                        <p className="text-sm text-on-surface-variant">{app.user.email}</p>
+                        <p className="text-xs text-on-surface-variant mt-1 font-mono">
+                          {new Date(app.createdAt).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <select 
+                        value={app.status}
+                        onChange={(e) => updateStatusMutation.mutate({ applicationId: app.id, status: e.target.value })}
+                        disabled={updateStatusMutation.isPending}
+                        className={`text-xs font-mono px-2 py-1 rounded border outline-none ${STATUS_COLORS[app.status] || ''} bg-surface`}
+                      >
+                        {Object.keys(STATUS_COLORS).map(s => (
+                          <option key={s} value={s}>{s}</option>
+                        ))}
+                      </select>
                     </div>
-                    <span className={`text-xs font-mono px-3 py-1 rounded-full border ${STATUS_COLORS[app.status] || ''}`}>
-                      {app.status}
-                    </span>
+
+                    {/* AI Score Section */}
+                    <div className="border-t border-outline-variant/30 pt-3">
+                      {app.aiScore !== null ? (
+                        <div className="bg-primary/5 rounded-lg p-3 border border-primary/20">
+                          <div className="flex items-center gap-2 mb-1">
+                            <Sparkles className="w-4 h-4 text-primary" />
+                            <span className="text-sm font-bold text-primary">AI Match Score: {app.aiScore}/100</span>
+                          </div>
+                          <p className="text-xs text-on-surface-variant leading-relaxed">
+                            {app.aiSummary}
+                          </p>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => scoreMutation.mutate(app.id)}
+                          disabled={scoreMutation.isPending || !app.resumeText}
+                          className="w-full flex items-center justify-center gap-2 text-xs font-semibold py-2 rounded-lg bg-surface-variant/30 border border-outline-variant/50 text-on-surface-variant hover:text-primary hover:border-primary/50 transition-colors disabled:opacity-50"
+                        >
+                          {scoreMutation.isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+                          {app.resumeText ? 'Generate AI Score' : 'No Resume Provided'}
+                        </button>
+                      )}
+                    </div>
                   </div>
                 ))
               ) : (
